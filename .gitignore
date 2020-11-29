@@ -1,2 +1,11 @@
 
 *.ipch
+/CMakeCache.txt
+CMakeFiles/
+/GridFight/Makefile
+/GridFight/cmake_install.cmake
+/Makefile
+/cmake_install.cmake
+GridFight/CMake
+/GridFight/CMakeLists.txt
+/GridFight/GridFight/CMakeLists.txt
