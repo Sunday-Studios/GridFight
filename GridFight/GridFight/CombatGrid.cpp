@@ -27,6 +27,8 @@ void CombatGrid::SetupGrid(int ID) {
 		}
 		grid.push_back(row);
 	}
+
+	//generate enemies too
 }
 
 void CombatGrid::Draw(RenderWindow* w) {
