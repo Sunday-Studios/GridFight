@@ -8,7 +8,7 @@
 #include "Tile.h"
 #include "CombatGrid.h"
 #include "enums.h"
-
+#include <iostream>
 #include <vector>
 
 using namespace sf;
@@ -31,6 +31,8 @@ protected:
 	void MouseReleased();
 	void MouseMoved();
 
+	void SortInitiative(vector<Actor*> units);
+
 	GAME_STATES MainMenuLoop();
 	GAME_STATES CharacterSelectLoop();
 	GAME_STATES CombatLoop();
@@ -44,12 +46,18 @@ protected:
 
 	Vector2i mousePos;
 
-	vector<GameObject*> gameObjects;
-	vector<GameObject*> playerUnits;
-	vector<GameObject*> enemyUnits;
+	vector<Actor*> combatUnits;
+	vector<PlayerUnit*> playerUnits;
+	vector<Enemy*> enemyUnits;
 	vector<Action*> actions;
 
 	CombatGrid* grid;
+
+	int currentTurn;
+
+	PlayerUnit* selectedPlayerUnit;
+	Tile* targetTile;
+	Actor* highlightActor;
 
 	int currentLevel = 0;
 

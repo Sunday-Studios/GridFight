@@ -79,10 +79,23 @@ GAME_STATES GameEngine::RewardScreenLoop() {
 
 void GameEngine::MouseClicked() {
 	if (Mouse::isButtonPressed(Mouse::Button::Left)) {
+		targetTile = grid->GetTile(mousePos);
+		if (targetTile->GetHasActor()) {
+			Actor* actor = targetTile->GetActor();
+			if (actor->GetType() == PLAYER) {
+				selectedPlayerUnit = (PlayerUnit*)actor;
+			}
+		}
 
 	}
 	else if (Mouse::isButtonPressed(Mouse::Button::Right)) {
-	
+		targetTile = grid->GetTile(mousePos);
+	}
+	Actor* currentActor = combatUnits[currentTurn];
+	std::cout << "unit:" <<  currentActor->GetName() << ",health: " << currentActor->GetCurrentHealth() << "/" << currentActor->GetMaxHealth() << ",speed: " << currentActor->GetSpeed() << endl;;
+	currentTurn++;
+	if (currentTurn == combatUnits.size()) {
+		currentTurn = 0;
 	}
 }
 
@@ -91,19 +104,16 @@ void GameEngine::MouseReleased() {
 }
 
 void GameEngine::MouseMoved() {
-
+	targetTile = grid->GetTile(mousePos);
+	Actor* actor = targetTile->GetActor();
+	if (actor) {
+		highlightActor = actor;
+	}
 }
 
 void GameEngine::CreateLevel() {
 	// load a level's details
 	// for now just boot in random stuff
-
-	Tile* background = new Tile(this,0);
-	
-	
-
-	gameObjects.push_back(background);
-	background->SetObstacle(0);
 
 	
 }
@@ -114,13 +124,25 @@ void GameEngine::InitCombatGrid() {
 
 	// init enemies
 	Enemy* enemyUnit1 = new Enemy(this, 0);
-	gameObjects.push_back(enemyUnit1);
+	combatUnits.push_back(enemyUnit1);
 	grid->AddActor(enemyUnit1);
 	// init players
 	PlayerUnit* playerUnit1 = new PlayerUnit(this, 0);
-	gameObjects.push_back(playerUnit1);
+	combatUnits.push_back(playerUnit1);
 	grid->AddActor(playerUnit1);
+	selectedPlayerUnit = playerUnit1;
+
+	SortInitiative(combatUnits);
 }
+
+bool CompSpeeds(Actor* lhs, Actor* rhs) {
+	return lhs->GetInitiative() > rhs->GetInitiative();
+}
+
+void GameEngine::SortInitiative(vector<Actor*> units){
+	sort(units.begin(), units.end(), CompSpeeds);
+}
+
 
 void GameEngine::Update(Time t) {
 
@@ -129,7 +151,7 @@ void GameEngine::Update(Time t) {
 void GameEngine::Draw() {
 	window->clear(Color::Black);
 	grid->Draw(window);
-	for (GameObject* o : gameObjects) {
+	for (GameObject* o : combatUnits) {
 		o->Draw(window);
 	}
 	

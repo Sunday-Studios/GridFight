@@ -13,8 +13,10 @@ public:
 	Obstacle* GetObstacle() { return obstacle; };
 	bool SetActor(Actor* a);
 	Actor* GetActor() { return actor; }
+	bool GetHasActor() { return bHasActor; }
 protected:
-	Actor* actor;
+	Actor* actor = NULL;
 	Obstacle* obstacle;
+	bool bHasActor = false;
 };
 

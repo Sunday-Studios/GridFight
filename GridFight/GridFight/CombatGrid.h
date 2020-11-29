@@ -16,6 +16,7 @@ public:
 	void Draw(RenderWindow* w);
 	void AddActor(PlayerUnit* p);
 	void AddActor(Enemy* e);
+	Tile* GetTile(Vector2i mousePos);
 protected:
 	vector<vector<Tile*>> grid;
 	GameEngine* engine;

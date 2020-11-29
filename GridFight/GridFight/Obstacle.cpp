@@ -5,4 +5,5 @@ Obstacle::Obstacle(GameEngine* e, int ID) : GameObject(e) {
 	// getInfo(ID, OBJECT_TYPE_ENEMY);
 	texIcon.loadFromFile("Textures/Tilemaps/TreeTown.png", IntRect(0, 32, 32, 32));
 	icon.setTexture(texIcon);
+	type = OBSTACLE;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "enums.h"
 
 using namespace sf;
 class GameEngine;
@@ -20,11 +21,13 @@ public:
 		pos = p; 
 		icon.setPosition(p);
 	}
-
+	FloatRect GetGlobalBounds() { return icon.getGlobalBounds(); }
+	OBJECT_TYPE GetType() { return type; }
 protected:
 	Sprite icon;
 	Texture texIcon;
 	GameEngine* engine;
 	Vector2f pos = Vector2f(0, 0);
+	OBJECT_TYPE type = OBJECT;
 };
 

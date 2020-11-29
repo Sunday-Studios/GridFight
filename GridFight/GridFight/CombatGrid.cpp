@@ -50,3 +50,15 @@ void CombatGrid::AddActor(Enemy* e) {
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(e);
 }
+
+Tile* CombatGrid::GetTile(Vector2i mousePos) {
+	for (vector<Tile*> row : grid) {
+		for (Tile* tile : row) {
+			FloatRect bounds = tile->GetGlobalBounds();
+			if (bounds.contains(Vector2f(mousePos))) {
+				return tile;
+			}
+		}
+	}
+	
+}
