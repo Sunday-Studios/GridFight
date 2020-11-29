@@ -7,6 +7,7 @@
 #include "PlayerUnit.h"
 #include "Tile.h"
 #include "CombatGrid.h"
+#include "enums.h"
 
 #include <vector>
 
@@ -28,6 +29,14 @@ protected:
 	void InitCombatGrid();
 	void MouseClicked();
 	void MouseReleased();
+	void MouseMoved();
+
+	GAME_STATES MainMenuLoop();
+	GAME_STATES CharacterSelectLoop();
+	GAME_STATES CombatLoop();
+	GAME_STATES RewardScreenLoop();
+
+	GAME_STATES currentState = MAIN_MENU;
 
 	RenderWindow* window;
 	View camera;
@@ -41,5 +50,8 @@ protected:
 	vector<Action*> actions;
 
 	CombatGrid* grid;
+
+	int currentLevel = 0;
+
 };
 

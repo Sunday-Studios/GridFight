@@ -13,34 +13,68 @@ GameEngine::~GameEngine() {
 
 
 void GameEngine::MainLoop() {
+	CreateLevel();
+	InitCombatGrid();
+	currentState = COMBAT_SCREEN;
 	while (window->isOpen()) {
 		window->setView(camera);
 		Time elapsed = clock.restart();
-		Event event;
 
-		Update(elapsed);
-		CreateLevel();
-		InitCombatGrid();
-		while (window->pollEvent(event)) {
-			if (event.type == sf::Event::Closed) window->close();
-
-			if (event.type == Event::MouseButtonPressed) {
-				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-				MouseClicked();
-			}
-			if (event.type == Event::MouseButtonReleased) {
-				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-				MouseReleased();
-			}
+		switch (currentState) {
+		case MAIN_MENU:
+			MainLoop();
+			break;
+		case CHARACTER_SELECT:
+			CharacterSelectLoop();
+			break;
+		case COMBAT_SCREEN:
+			CombatLoop();
+			break;
+		case REWARD_SCREEN:
+			RewardScreenLoop();
+			break;
 
 		}
 
-
-
+		Update(elapsed);
 		Draw();
 
 	}
 	
+}
+
+GAME_STATES GameEngine::MainMenuLoop() {
+	return MAIN_MENU;
+}
+
+GAME_STATES GameEngine::CharacterSelectLoop() {
+	return MAIN_MENU;
+}
+
+GAME_STATES GameEngine::CombatLoop() {
+	Event event;
+	while (window->pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window->close();
+
+		if (event.type == Event::MouseButtonPressed) {
+			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+			MouseClicked();
+		}
+		if (event.type == Event::MouseButtonReleased) {
+			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+			MouseReleased();
+		}
+		if (event.type == Event::MouseMoved) {
+			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+			MouseMoved();
+		}
+
+	}
+	return MAIN_MENU;
+}
+
+GAME_STATES GameEngine::RewardScreenLoop() {
+	return MAIN_MENU;
 }
 
 void GameEngine::MouseClicked() {
@@ -56,23 +90,36 @@ void GameEngine::MouseReleased() {
 	// do whatever action is queued? might need to think about logic
 }
 
+void GameEngine::MouseMoved() {
+
+}
+
 void GameEngine::CreateLevel() {
 	// load a level's details
 	// for now just boot in random stuff
 
 	Tile* background = new Tile(this,0);
-	Actor* playerUnit1 = new PlayerUnit(this,0);
-	Actor* enemyUnit1 = new Enemy(this,0);
+	
+	
 
 	gameObjects.push_back(background);
 	background->SetObstacle(0);
-	gameObjects.push_back(playerUnit1);
-	gameObjects.push_back(enemyUnit1);
+
+	
 }
 
 void GameEngine::InitCombatGrid() {
 	grid = new CombatGrid(this);
-	grid->SetupGrid(0);
+	grid->SetupGrid(currentLevel);
+
+	// init enemies
+	Enemy* enemyUnit1 = new Enemy(this, 0);
+	gameObjects.push_back(enemyUnit1);
+	grid->AddActor(enemyUnit1);
+	// init players
+	PlayerUnit* playerUnit1 = new PlayerUnit(this, 0);
+	gameObjects.push_back(playerUnit1);
+	grid->AddActor(playerUnit1);
 }
 
 void GameEngine::Update(Time t) {
@@ -81,9 +128,10 @@ void GameEngine::Update(Time t) {
 
 void GameEngine::Draw() {
 	window->clear(Color::Black);
+	grid->Draw(window);
 	for (GameObject* o : gameObjects) {
 		o->Draw(window);
 	}
-	grid->Draw(window);
+	
 	window->display();
 }

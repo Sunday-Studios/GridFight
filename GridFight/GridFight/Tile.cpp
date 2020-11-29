@@ -20,3 +20,12 @@ void Tile::Draw(RenderWindow* w) {
 		obstacle->Draw(w);
 	}
 }
+
+bool Tile::SetActor(Actor* a) {
+	if (!actor) {
+		actor = a;
+		actor->SetPosition(this->GetPosition());
+		return true;
+	}
+	return false;
+}

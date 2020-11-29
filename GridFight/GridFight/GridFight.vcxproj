@@ -158,6 +158,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CombatGrid.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="enums.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Obstacle.h" />

@@ -1,0 +1,9 @@
+#pragma once
+
+
+enum GAME_STATES {
+	MAIN_MENU,
+	CHARACTER_SELECT,
+	COMBAT_SCREEN,
+	REWARD_SCREEN
+};

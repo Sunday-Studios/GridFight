@@ -11,6 +11,8 @@ public:
 	void SetObstacle(int ID);
 	void Draw(RenderWindow * w);
 	Obstacle* GetObstacle() { return obstacle; };
+	bool SetActor(Actor* a);
+	Actor* GetActor() { return actor; }
 protected:
 	Actor* actor;
 	Obstacle* obstacle;
