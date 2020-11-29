@@ -1,0 +1,9 @@
+﻿  GridFight.cpp
+GridFight.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::Sprite::Sprite(void)" (__imp_??0Sprite@sf@@QAE@XZ) referenced in function _main
+GridFight.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: virtual __thiscall sf::Sprite::~Sprite(void)" (__imp_??1Sprite@sf@@UAE@XZ) referenced in function _main
+..\..\SFML-2.5.0\lib\sfml-graphics-d.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\..\SFML-2.5.0\lib\sfml-window-d.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\..\SFML-2.5.0\lib\sfml-system-d.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\..\SFML-2.5.0\lib\sfml-network-d.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\..\SFML-2.5.0\lib\sfml-audio-d.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+C:\Users\Joel\Documents\SundayStudios\GridFight\GridFight\GridFight\Debug\GridFight.exe : fatal error LNK1120: 2 unresolved externals
