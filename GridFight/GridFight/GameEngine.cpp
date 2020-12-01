@@ -90,6 +90,15 @@ void GameEngine::MouseClicked() {
 	}
 	else if (Mouse::isButtonPressed(Mouse::Button::Right)) {
 		targetTile = grid->GetTile(mousePos);
+		if (targetTile!= NULL) {
+			for (Tile* t : pathToTarget) {
+				t->SetHighlighted(false);
+			}
+			pathToTarget = grid->GetPath(selectedPlayerUnit->GetTile(), targetTile);
+		}
+		for (Tile* t : pathToTarget) {
+			t->SetHighlighted(true);
+		}
 	}
 	Actor* currentActor = combatUnits[currentTurn];
 	std::cout << "unit:" <<  currentActor->GetName() << ",health: " << currentActor->GetCurrentHealth() << "/" << currentActor->GetMaxHealth() << ",speed: " << currentActor->GetSpeed() << endl;;
@@ -105,10 +114,13 @@ void GameEngine::MouseReleased() {
 
 void GameEngine::MouseMoved() {
 	targetTile = grid->GetTile(mousePos);
-	Actor* actor = targetTile->GetActor();
-	if (actor) {
-		highlightActor = actor;
+	if (targetTile != NULL) {
+		Actor* actor = targetTile->GetActor();
+		if (actor) {
+			highlightActor = actor;
+		}
 	}
+	
 }
 
 void GameEngine::CreateLevel() {
@@ -145,7 +157,10 @@ void GameEngine::SortInitiative(vector<Actor*> units){
 
 
 void GameEngine::Update(Time t) {
-
+	grid->Update(t);
+	for (GameObject* o : combatUnits) {
+		o->Draw(window);
+	}
 }
 
 void GameEngine::Draw() {

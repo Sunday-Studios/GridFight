@@ -3,5 +3,5 @@
   GridFight.cpp
   Tile.cpp
   Generating Code...
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatgrid.cpp(64): warning C4715: 'CombatGrid::GetTile': not all control paths return a value
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatgrid.cpp(181): warning C4715: 'CombatGrid::GetPath': not all control paths return a value
   GridFight.vcxproj -> C:\Users\Joel\Documents\SundayStudios\GridFight\GridFight\GridFight\x64\Debug\GridFight.exe

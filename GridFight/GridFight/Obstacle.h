@@ -4,6 +4,9 @@ class Obstacle :	public GameObject
 {
 public:
 	Obstacle(GameEngine* e, int ID);
-	~Obstacle() {};
+	~Obstacle() {}
+	int GetMoveCost() { return moveCost; }
+protected:
+	int moveCost = 1;
 };
 

@@ -57,6 +57,7 @@ protected:
 
 	PlayerUnit* selectedPlayerUnit;
 	Tile* targetTile;
+	vector<Tile*> pathToTarget;
 	Actor* highlightActor;
 
 	int currentLevel = 0;

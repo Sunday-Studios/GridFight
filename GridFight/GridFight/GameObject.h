@@ -26,6 +26,7 @@ public:
 protected:
 	Sprite icon;
 	Texture texIcon;
+	Shader shader;
 	GameEngine* engine;
 	Vector2f pos = Vector2f(0, 0);
 	OBJECT_TYPE type = OBJECT;

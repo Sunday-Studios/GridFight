@@ -6,4 +6,5 @@ Obstacle::Obstacle(GameEngine* e, int ID) : GameObject(e) {
 	texIcon.loadFromFile("Textures/Tilemaps/TreeTown.png", IntRect(0, 32, 32, 32));
 	icon.setTexture(texIcon);
 	type = OBSTACLE;
+	moveCost = 99;
 }

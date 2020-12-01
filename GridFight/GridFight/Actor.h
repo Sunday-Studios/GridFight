@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include <SFML/Graphics.hpp>
 
+class Tile;
 using namespace sf;
 
 class Actor : public GameObject
@@ -16,7 +17,10 @@ public:
 	int GetArmour() { return armour; }
 	int GetInitiative() { return initiative; }
 	std::string GetName() { return name; }
+	Tile* GetTile() { return tile; }
+	void SetTile(Tile* t) { tile = t; }
 protected:
+	Tile* tile;
 	int currentHealth = 0;
 	int maxHealth = 0;
 	int speed = 0;
