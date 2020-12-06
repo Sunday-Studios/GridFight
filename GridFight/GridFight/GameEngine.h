@@ -32,6 +32,11 @@ protected:
 	void MouseMoved();
 
 	void SortInitiative(vector<Actor*> units);
+	void ConvertPathToActions(Actor* currentTurn);
+	void DoAction(Action* action);
+
+
+	void AdvanceTurn();
 
 	GAME_STATES MainMenuLoop();
 	GAME_STATES CharacterSelectLoop();
@@ -53,7 +58,7 @@ protected:
 
 	CombatGrid* grid;
 
-	int currentTurn;
+	int currentTurn = 1;
 
 	PlayerUnit* selectedPlayerUnit;
 	Tile* targetTile;
@@ -61,6 +66,6 @@ protected:
 	Actor* highlightActor;
 
 	int currentLevel = 0;
-
+	bool bDoingAction = false;
 };
 

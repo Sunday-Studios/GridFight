@@ -10,7 +10,8 @@ PlayerUnit::PlayerUnit(GameEngine* e, int ID) : Actor(e) {
 
 	maxHealth = 40;
 	currentHealth = 40;
-	speed = 3;
+	currentSpeed = 3;
+	maxSpeed = 3;
 	initiative = 3;
 	armour = 0;
 	name = "Hero";

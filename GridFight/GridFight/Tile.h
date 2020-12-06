@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Obstacle.h"
 #include "Actor.h"
+class Actor;
 
 class Tile :	public GameObject
 {

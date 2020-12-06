@@ -10,7 +10,8 @@ Enemy::Enemy(GameEngine* e, int ID) : Actor(e) {
 
 	currentHealth = 10;
 	maxHealth = 10;
-	speed = 1;
+	currentSpeed = 0;
+	maxSpeed = 0;
 	initiative = 1;
 	armour = 0;
 	name = "Dummy";

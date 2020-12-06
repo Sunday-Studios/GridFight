@@ -16,3 +16,9 @@ enum OBJECT_TYPE {
 	OBJECT,
 	OBSTACLE
 };
+
+enum ACTION_TYPE {
+	MOVE,
+	ATTACK,
+	SPECIAL
+};

@@ -17,8 +17,7 @@ void GameEngine::MainLoop() {
 	InitCombatGrid();
 	currentState = COMBAT_SCREEN;
 	while (window->isOpen()) {
-		window->setView(camera);
-		Time elapsed = clock.restart();
+		
 
 		switch (currentState) {
 		case MAIN_MENU:
@@ -36,8 +35,8 @@ void GameEngine::MainLoop() {
 
 		}
 
-		Update(elapsed);
-		Draw();
+		
+	
 
 	}
 	
@@ -53,22 +52,50 @@ GAME_STATES GameEngine::CharacterSelectLoop() {
 
 GAME_STATES GameEngine::CombatLoop() {
 	Event event;
-	while (window->pollEvent(event)) {
-		if (event.type == sf::Event::Closed) window->close();
+	while (window->isOpen()) {
+		Time elapsed = clock.restart();
+		window->setView(camera);
+		Update(elapsed);
+		Draw();
+		Actor* currentUnit = combatUnits[currentTurn];
+		if (!bDoingAction && currentUnit->GetActions().size() != 0) {
+			if (currentUnit->GetCurrentSpeed() > 0) {
+				if (currentUnit->GetActions()[0]->GetCost() <= currentUnit->GetCurrentSpeed()) {
+					DoAction(currentUnit->GetActions()[0]);
+				}
+			}
+			else {
+				AdvanceTurn();
+			}
+		}
+		else if (bDoingAction) {
+			if (!currentUnit->GetMoving()) {
+				bDoingAction = false;
+			}
+		}
+		if (currentUnit->GetCurrentSpeed() == 0) {
+			AdvanceTurn();
+		}
+		while (window->pollEvent(event)) {
+			
+			if (event.type == sf::Event::Closed) window->close();
+			
+			if (!bDoingAction) {
+				if (event.type == Event::MouseButtonPressed) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseClicked();
+				}
+				if (event.type == Event::MouseButtonReleased) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseReleased();
+				}
+			}
+			if (event.type == Event::MouseMoved) {
+				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+				MouseMoved();
+			}
 
-		if (event.type == Event::MouseButtonPressed) {
-			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-			MouseClicked();
 		}
-		if (event.type == Event::MouseButtonReleased) {
-			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-			MouseReleased();
-		}
-		if (event.type == Event::MouseMoved) {
-			mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-			MouseMoved();
-		}
-
 	}
 	return MAIN_MENU;
 }
@@ -77,10 +104,46 @@ GAME_STATES GameEngine::RewardScreenLoop() {
 	return MAIN_MENU;
 }
 
+void GameEngine::ConvertPathToActions(Actor* currentTurn) {
+	vector<Action*> actionList;
+	for (int i = pathToTarget.size()-2; i >=0; i--) {
+		Tile* tile = pathToTarget[i];
+		if (tile->GetHasActor()) {
+			if (tile->GetActor()->GetType() != currentTurn->GetType()) {
+				// ACTUALLY CHECK CURRENT SELECTED ATTACK OPTION (e.g. Club, gun, etc);
+				Action* action = new Action(currentTurn, tile->GetActor(), ATTACK);
+				actionList.push_back(action);
+			}
+		}
+		else {
+			Action* action = new Action(currentTurn, tile,MOVE);
+			actionList.push_back(action);
+		}
+
+	}
+	currentTurn->SetActions(actionList);
+
+
+}
+
+void GameEngine::DoAction(Action* action) {
+	bDoingAction = true;
+	switch (action->GetType()) {
+	case MOVE:
+		action->GetUser()->SetMoveTarget(action->GetTile());
+		action->GetUser()->SetMoving(true);
+		break;
+	case ATTACK:
+		break;
+	case SPECIAL:
+		break;
+	}
+}
+
 void GameEngine::MouseClicked() {
 	if (Mouse::isButtonPressed(Mouse::Button::Left)) {
 		targetTile = grid->GetTile(mousePos);
-		if (targetTile->GetHasActor()) {
+		if (targetTile != NULL && targetTile->GetHasActor()) {
 			Actor* actor = targetTile->GetActor();
 			if (actor->GetType() == PLAYER) {
 				selectedPlayerUnit = (PlayerUnit*)actor;
@@ -95,13 +158,20 @@ void GameEngine::MouseClicked() {
 				t->SetHighlighted(false);
 			}
 			pathToTarget = grid->GetPath(selectedPlayerUnit->GetTile(), targetTile);
+			ConvertPathToActions(combatUnits[currentTurn]);
+
 		}
 		for (Tile* t : pathToTarget) {
 			t->SetHighlighted(true);
 		}
 	}
 	Actor* currentActor = combatUnits[currentTurn];
-	std::cout << "unit:" <<  currentActor->GetName() << ",health: " << currentActor->GetCurrentHealth() << "/" << currentActor->GetMaxHealth() << ",speed: " << currentActor->GetSpeed() << endl;;
+	
+}
+
+void GameEngine::AdvanceTurn() {
+	Actor* currentActor = combatUnits[currentTurn];
+	currentActor->ResetSpeed();
 	currentTurn++;
 	if (currentTurn == combatUnits.size()) {
 		currentTurn = 0;
@@ -159,7 +229,7 @@ void GameEngine::SortInitiative(vector<Actor*> units){
 void GameEngine::Update(Time t) {
 	grid->Update(t);
 	for (GameObject* o : combatUnits) {
-		o->Draw(window);
+		o->Update(t);
 	}
 }
 
