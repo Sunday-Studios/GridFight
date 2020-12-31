@@ -11,7 +11,7 @@ using namespace std;
 class CombatGrid
 {
 public:
-	CombatGrid(GameEngine* e);
+	CombatGrid(CombatEngine* e);
 	~CombatGrid();
 	void SetupGrid(int ID);
 	void Draw(RenderWindow* w);
@@ -37,7 +37,7 @@ protected:
 
 
 	vector<vector<Tile*>> grid;
-	GameEngine* engine;
+	CombatEngine* engine;
 	int rows = 0;
 	int cols = 0;
 };

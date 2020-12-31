@@ -3,7 +3,7 @@
 class Obstacle :	public GameObject
 {
 public:
-	Obstacle(GameEngine* e, int ID);
+	Obstacle(CombatEngine* e, int ID);
 	~Obstacle() {}
 	int GetMoveCost() { return moveCost; }
 protected:

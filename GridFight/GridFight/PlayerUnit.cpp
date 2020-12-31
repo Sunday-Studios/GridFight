@@ -1,11 +1,22 @@
 #include "PlayerUnit.h"
 
 
-PlayerUnit::PlayerUnit(GameEngine* e, int ID) : Actor(e) {
+PlayerUnit::PlayerUnit(CombatEngine* e, int ID) : Actor(e) {
 	//read ID details from text file; XML/JSON/PlainText
 	// getInfo(ID, OBJECT_TYPE_ENEMY);
-	texIcon.loadFromFile("Textures/Player/Player.png");
-	icon.setTexture(texIcon);
+
+	//int frames = READ_FROM_FILE;
+	idleAnimationFrames = 4;
+	bHasIdleAnimation = true;
+	for (int i = 0; i < idleAnimationFrames; i++) {
+		Texture tex;
+		tex.loadFromFile("Textures/Player/Heroes/Axeman.png", IntRect(32*i,0,32,32));
+		idleAnimationFrameSet.push_back(tex);
+	}
+	
+
+	//texIcon.loadFromFile("Textures/Player/Player.png");
+	icon.setTexture(idleAnimationFrameSet[currentIdleFrame]);
 	type = PLAYER;
 
 	maxHealth = 40;
@@ -15,4 +26,8 @@ PlayerUnit::PlayerUnit(GameEngine* e, int ID) : Actor(e) {
 	initiative = 3;
 	armour = 0;
 	name = "Hero";
+	weapons.push_back(new Weapon(0));
+	currentWeapon = 0;
+	
+
 }

@@ -3,7 +3,7 @@
 class Enemy :	public Actor
 {
 public:
-	Enemy(GameEngine* e, int ID);
+	Enemy(CombatEngine* e, int ID);
 	~Enemy() {};
 };
 

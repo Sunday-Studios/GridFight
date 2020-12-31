@@ -3,12 +3,13 @@
 #include "enums.h"
 
 using namespace sf;
-class GameEngine;
+class CombatEngine;
 
 class GameObject
 {
 public:
-	GameObject(GameEngine* e);
+	GameObject(CombatEngine* e);
+	GameObject() {}
 	~GameObject() {};
 	virtual void Update(Time t) {};
 	virtual void Draw(RenderWindow* window) { window->draw(icon); }
@@ -23,11 +24,13 @@ public:
 	}
 	FloatRect GetGlobalBounds() { return icon.getGlobalBounds(); }
 	OBJECT_TYPE GetType() { return type; }
+	void SetScale(int scale) { icon.setScale(scale, scale); }
+
 protected:
 	Sprite icon;
 	Texture texIcon;
 	Shader shader;
-	GameEngine* engine;
+	CombatEngine* engine;
 	Vector2f pos = Vector2f(0, 0);
 	OBJECT_TYPE type = OBJECT;
 };

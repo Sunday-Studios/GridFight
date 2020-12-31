@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(GameEngine* e, int ID) : Actor(e) {
+Enemy::Enemy(CombatEngine* e, int ID) : Actor(e) {
 	// read ID details from text file; XML/JSON/PlainText
 	// getInfo(ID, OBJECT_TYPE_ENEMY);
 	texIcon.loadFromFile("Textures/Enemy/targetDummy.png");
@@ -10,8 +10,8 @@ Enemy::Enemy(GameEngine* e, int ID) : Actor(e) {
 
 	currentHealth = 10;
 	maxHealth = 10;
-	currentSpeed = 0;
-	maxSpeed = 0;
+	currentSpeed = 1;
+	maxSpeed = 1;
 	initiative = 1;
 	armour = 0;
 	name = "Dummy";

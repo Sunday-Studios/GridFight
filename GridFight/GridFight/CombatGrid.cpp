@@ -1,7 +1,7 @@
 #include "CombatGrid.h"
 
 
-CombatGrid::CombatGrid(GameEngine* e) {
+CombatGrid::CombatGrid(CombatEngine* e) {
 	engine = e;
 }
 
@@ -23,9 +23,11 @@ void CombatGrid::SetupGrid(int ID) {
 		for (int j = 0; j < cols; j++) {
 			Tile* tile = new Tile(engine, 0,i,j);
 			
-			tile->SetPosition(100.0f + j * 40.0f, 100.0f + i * 40.0f);
+			tile->SetPosition(100.0f + j * 80.0f, 100.0f + i * 80.0f);
+			tile->SetScale(2);
 			if (j == 2 && i != 2) {
 				tile->SetObstacle(0);
+				tile->GetObstacle()->SetScale(2);
 			}
 			row.push_back(tile);
 		}
@@ -55,12 +57,14 @@ void CombatGrid::AddActor(PlayerUnit* p) {
 	int col = std::rand() % (cols / 2);
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(p);
+	p->SetScale(2);
 }
 
 void CombatGrid::AddActor(Enemy* e) {
 	int col = cols - 1 - std::rand() % (cols / 2);
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(e);
+	e->SetScale(2);
 }
 
 Tile* CombatGrid::GetTile(Vector2i mousePos) {

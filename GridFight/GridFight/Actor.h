@@ -2,8 +2,10 @@
 #include "GameObject.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Weapon.h"
 class Action;
 class Tile;
+
 
 using namespace sf;
 using namespace std;
@@ -11,7 +13,8 @@ using namespace std;
 class Actor : public GameObject
 {
 public:
-	Actor(GameEngine* e);
+	Actor(CombatEngine* e);
+	Actor(Actor* a);
 	~Actor() {};
 	virtual void Update(Time t);
 	int GetCurrentHealth() { return currentHealth; }
@@ -29,6 +32,11 @@ public:
 	void SetMoving(bool b) { bIsMoving = b; }
 	bool GetMoving() { return bIsMoving; }
 	void ResetSpeed() { currentSpeed = maxSpeed; }
+	Weapon* GetWeapon() { return weapons[currentWeapon]; }
+	void Damage(int damage);
+	bool IsDead() { return bIsDead; }
+	void SetAttacking(bool b) { bIsAttacking = b; }
+	void Animate();
 protected:
 	Tile* tile;
 	Tile* moveTarget;
@@ -41,6 +49,16 @@ protected:
 	string name = "";
 	vector<Action*> actionList;
 	bool bIsMoving = false;
+	bool bIsAttacking = false;
 	float moveSpeed = 40;
+	vector<Weapon*> weapons;
+	int currentWeapon = 0;
+	bool bIsDead = false;
+	bool bHasIdleAnimation = false;
+	int idleAnimationFrames = 0;
+	int currentIdleFrame = 0;
+	vector<Texture> idleAnimationFrameSet;
+	float idleAnimationTimer = 0;
+	float idleAnimationRate = 0.15;
 };
 

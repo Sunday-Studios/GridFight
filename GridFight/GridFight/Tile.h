@@ -7,7 +7,7 @@ class Actor;
 class Tile :	public GameObject
 {
 public:
-	Tile(GameEngine*, int ID, int r, int c);
+	Tile(CombatEngine*, int ID, int r, int c);
 	~Tile() {};
 	void SetObstacle(int ID);
 	void Draw(RenderWindow * w);
@@ -23,6 +23,7 @@ public:
 		return 1;
 	}
 	void SetHighlighted(bool b) { bIsHighlighted = b; }
+	void ClearActor() { actor = NULL; bHasActor = false; }
 protected:
 	Clock clock;
 	Actor* actor = NULL;

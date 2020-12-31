@@ -3,7 +3,7 @@
 class PlayerUnit :	public Actor
 {
 public:
-	PlayerUnit(GameEngine* e, int ID);
+	PlayerUnit(CombatEngine* e, int ID);
 	~PlayerUnit() {};
 };
 
