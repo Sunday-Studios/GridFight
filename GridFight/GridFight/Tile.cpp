@@ -4,7 +4,7 @@
 Tile::Tile(CombatEngine* e, int ID, int r, int c) : GameObject(e) {
 	//read ID details from text file; XML/JSON/PlainText
 	// getInfo(ID, OBJECT_TYPE_ENEMY);
-	texIcon.loadFromFile("Textures/Tilemaps/TreeTown.png", IntRect(0, 0, 32, 32));
+	texIcon.loadFromFile("Textures/Tilemaps/TreeTown.png", IntRect(0, 0, 96, 96));
 	icon.setTexture(texIcon);
 	row = r;
 	col = c;

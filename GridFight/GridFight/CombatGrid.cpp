@@ -3,6 +3,9 @@
 
 CombatGrid::CombatGrid(CombatEngine* e) {
 	engine = e;
+
+	texGridBack.loadFromFile("Textures/GUI/GridBackground.png");
+	gridBackground.setTexture(texGridBack);
 }
 
 CombatGrid::~CombatGrid() {
@@ -23,11 +26,9 @@ void CombatGrid::SetupGrid(int ID) {
 		for (int j = 0; j < cols; j++) {
 			Tile* tile = new Tile(engine, 0,i,j);
 			
-			tile->SetPosition(100.0f + j * 80.0f, 100.0f + i * 80.0f);
-			tile->SetScale(2);
+			tile->SetPosition(40.0f + j * 100.0f, 40.0f + i * 100.0f);
 			if (j == 2 && i != 2) {
 				tile->SetObstacle(0);
-				tile->GetObstacle()->SetScale(2);
 			}
 			row.push_back(tile);
 		}
@@ -38,6 +39,7 @@ void CombatGrid::SetupGrid(int ID) {
 }
 
 void CombatGrid::Draw(RenderWindow* w) {
+	w->draw(gridBackground);
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			grid[i][j]->Draw(w);
@@ -57,14 +59,12 @@ void CombatGrid::AddActor(PlayerUnit* p) {
 	int col = std::rand() % (cols / 2);
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(p);
-	p->SetScale(2);
 }
 
 void CombatGrid::AddActor(Enemy* e) {
 	int col = cols - 1 - std::rand() % (cols / 2);
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(e);
-	e->SetScale(2);
 }
 
 Tile* CombatGrid::GetTile(Vector2i mousePos) {

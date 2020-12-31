@@ -1,5 +1,17 @@
 #include "InspectPane.h"
+InspectPane::InspectPane() {
+	texture.loadFromFile("Textures/GUI/InspectPane.png");
+	icon.setTexture(texture);
+	icon.setPosition(pos);
 
+	texBackdrop.loadFromFile("Textures/GUI/PortraitBackdrop.png");
+	portraitBackdrop.setTexture(texBackdrop);
+	portraitBackdrop.setPosition(iconPos);
+}
+
+InspectPane::~InspectPane() {
+
+}
 
 void InspectPane::SetActor(Actor* a) {
 	actor = a;
@@ -20,10 +32,12 @@ void InspectPane::SetActor(Actor* a) {
 	nameText.setPosition(namePos);
 
 	actor->SetPosition(iconPos);
-	actor->SetScale(4);
+	actor->SetScale(2);
 }
 
 void InspectPane::Draw(RenderWindow* w) {
+	w->draw(icon);
+	w->draw(portraitBackdrop);
 	if (bHasActor) {
 		w->draw(healthText);
 		w->draw(speedText);

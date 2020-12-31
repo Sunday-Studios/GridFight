@@ -5,6 +5,8 @@ CombatEngine::CombatEngine(RenderWindow* w) {
 	window = w;
 	camera = window->getDefaultView();
 	Init();
+	inspectPane = new InspectPane();
+	actionBar = new ActionBar();
 }
 
 CombatEngine::~CombatEngine() {
@@ -49,34 +51,36 @@ GAME_STATES CombatEngine::CombatLoop() {
 		if (currentUnit->GetCurrentSpeed() == 0) {
 			AdvanceTurn();
 		}
-		while (window->pollEvent(event)) {
-			
-			if (event.type == sf::Event::Closed) window->close();
-			
-			if (!bDoingAction) {
-				if (event.type == Event::MouseButtonPressed) {
-					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-					MouseClicked();
-				}
-				if (event.type == Event::MouseButtonReleased) {
-					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-					MouseReleased();
+		if(currentUnit->GetType() == PLAYER){
+			actionBar->SetPlayerUnit((PlayerUnit *) (currentUnit));
+			while (window->pollEvent(event)) {
+
+				if (event.type == sf::Event::Closed) window->close();
+
+				if (!bDoingAction) {
+					if (event.type == Event::MouseButtonPressed) {
+						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+						MouseClicked();
+					}
+					if (event.type == Event::MouseButtonReleased) {
+						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+						MouseReleased();
+					}
+					if (event.type == Event::MouseMoved) {
+						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+						MouseMoved();
+					}
+					if (event.type == Event::KeyPressed) {
+						if (Keyboard::isKeyPressed(Keyboard::Space)) {
+							AdvanceTurn();
+						}
+					}
 				}
 				if (event.type == Event::MouseMoved) {
 					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
 					MouseMoved();
 				}
-				if (event.type == Event::KeyPressed) {
-					if (Keyboard::isKeyPressed(Keyboard::Space)) {
-						AdvanceTurn();
-					}
-				}
 			}
-			if (event.type == Event::MouseMoved) {
-				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-				MouseMoved();
-			}
-
 		}
 	}
 	return MAIN_MENU;
@@ -170,7 +174,7 @@ void CombatEngine::MouseMoved() {
 		Actor* actor = targetTile->GetActor();
 		if (actor) {
 			highlightActor = new Actor(actor);
-			inspectPane.SetActor(highlightActor);
+			inspectPane->SetActor(highlightActor);
 		}
 	}
 	
@@ -228,6 +232,7 @@ void CombatEngine::Draw() {
 	for (GameObject* o : combatUnits) {
 		o->Draw(window);
 	}
-	inspectPane.Draw(window);
+	inspectPane->Draw(window);
+	actionBar->Draw(window);
 	window->display();
 }

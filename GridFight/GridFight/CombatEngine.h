@@ -9,6 +9,7 @@
 #include "CombatGrid.h"
 #include "enums.h"
 #include "InspectPane.h"
+#include "ActionBar.h"
 #include <iostream>
 #include <vector>
 
@@ -64,7 +65,9 @@ protected:
 	Tile* targetTile;
 	vector<Tile*> pathToTarget;
 	Actor* highlightActor;
-	InspectPane inspectPane;
+	InspectPane* inspectPane;
+	ActionBar* actionBar;
+
 
 	int currentLevel = 0;
 	bool bDoingAction = false;

@@ -10,7 +10,7 @@ PlayerUnit::PlayerUnit(CombatEngine* e, int ID) : Actor(e) {
 	bHasIdleAnimation = true;
 	for (int i = 0; i < idleAnimationFrames; i++) {
 		Texture tex;
-		tex.loadFromFile("Textures/Player/Heroes/Axeman.png", IntRect(32*i,0,32,32));
+		tex.loadFromFile("Textures/Player/Heroes/Axeman.png", IntRect(96*i,0,96,96));
 		idleAnimationFrameSet.push_back(tex);
 	}
 	
@@ -27,7 +27,28 @@ PlayerUnit::PlayerUnit(CombatEngine* e, int ID) : Actor(e) {
 	armour = 0;
 	name = "Hero";
 	weapons.push_back(new Weapon(0));
-	currentWeapon = 0;
+	weapons.push_back(new Weapon(1));
+	SetEquippedWeapon(0);
 	
 
+	UpdateWeaponList();
+
+}
+
+void PlayerUnit::UpdateWeaponList() {
+	for (int i = 0; i < weapons.size();i++) {
+		Weapon* wep = weapons[i];
+	}
+}
+
+void PlayerUnit::Draw(RenderWindow* window){
+	Actor::Draw(window);
+	for (Weapon* wep : weapons) {
+		wep->Draw(window);
+	}
+}
+
+void PlayerUnit::SetEquippedWeapon(int weaponID) {
+	currentWeapon = 0;
+	weapons[currentWeapon]->SetEquipped(true);
 }

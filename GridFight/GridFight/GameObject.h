@@ -14,11 +14,11 @@ public:
 	virtual void Update(Time t) {};
 	virtual void Draw(RenderWindow* window) { window->draw(icon); }
 	Vector2f GetPosition() { return pos; }
-	void SetPosition(float x, float y) {
+	virtual void SetPosition(float x, float y) {
 		pos = Vector2f(x, y); 
 		icon.setPosition(x, y);
 	}
-	void SetPosition(Vector2f p) { 
+	virtual void SetPosition(Vector2f p) { 
 		pos = p; 
 		icon.setPosition(p);
 	}

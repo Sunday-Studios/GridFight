@@ -40,5 +40,8 @@ protected:
 	CombatEngine* engine;
 	int rows = 0;
 	int cols = 0;
+
+	Sprite gridBackground;
+	Texture texGridBack;
 };
 

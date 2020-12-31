@@ -1,35 +1,16 @@
-﻿  Action.cpp
+﻿  CombatEngine.cpp
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Actor.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-  CombatEngine.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\inspectpane.h(23): warning C4091: 'static ': ignored on left of 'InspectPane' when no variable is declared
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatengine.cpp(87): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatengine.cpp(109): warning C4101: 'w': unreferenced local variable
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(63): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\inspectpane.h(32): warning C4091: 'static ': ignored on left of 'InspectPane' when no variable is declared
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatengine.cpp(91): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatengine.cpp(113): warning C4101: 'w': unreferenced local variable
   CombatGrid.cpp
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Enemy.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(63): warning C4305: 'initializing': truncation from 'double' to 'float'
   GridFight.cpp
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\inspectpane.h(23): warning C4091: 'static ': ignored on left of 'InspectPane' when no variable is declared
-  InspectPane.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\inspectpane.h(23): warning C4091: 'static ': ignored on left of 'InspectPane' when no variable is declared
-  PlayerUnit.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Tile.cpp
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gameobject.h(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(62): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\actor.h(63): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\inspectpane.h(32): warning C4091: 'static ': ignored on left of 'InspectPane' when no variable is declared
   Generating Code...
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\combatgrid.cpp(185): warning C4715: 'CombatGrid::GetPath': not all control paths return a value
   GridFight.vcxproj -> C:\Users\Joel\Documents\SundayStudios\GridFight\GridFight\GridFight\x64\Debug\GridFight.exe

@@ -17,6 +17,7 @@ public:
 	Actor(Actor* a);
 	~Actor() {};
 	virtual void Update(Time t);
+	virtual void Draw(RenderWindow* window) { window->draw(icon); }
 	int GetCurrentHealth() { return currentHealth; }
 	int GetMaxHealth() { return maxHealth; }
 	int GetCurrentSpeed() { return currentSpeed; }
