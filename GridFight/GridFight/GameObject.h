@@ -24,7 +24,7 @@ public:
 	}
 	FloatRect GetGlobalBounds() { return icon.getGlobalBounds(); }
 	OBJECT_TYPE GetType() { return type; }
-	void SetScale(int scale) { icon.setScale(scale, scale); }
+	void SetScale(float scale) { icon.setScale(scale, scale); }
 
 protected:
 	Sprite icon;

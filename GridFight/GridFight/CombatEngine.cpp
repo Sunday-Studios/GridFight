@@ -7,6 +7,7 @@ CombatEngine::CombatEngine(RenderWindow* w) {
 	Init();
 	inspectPane = new InspectPane();
 	actionBar = new ActionBar();
+	
 }
 
 CombatEngine::~CombatEngine() {
@@ -33,26 +34,59 @@ GAME_STATES CombatEngine::CombatLoop() {
 		Update(elapsed);
 		Draw();
 		Actor* currentUnit = combatUnits[currentTurn];
-		if (!bDoingAction && currentUnit->GetActions().size() != 0) {
-			if (currentUnit->GetCurrentSpeed() > 0) {
-				if (currentUnit->GetActions()[0]->GetCost() <= currentUnit->GetCurrentSpeed()) {
-					DoAction(currentUnit->GetActions()[0]);
+		//loop for any input logic that should update during enemy turns/animations/etc 
+		// i.e. hovering over units to display inspectPane details
+		if (currentUnit->GetType() == ENEMY) {
+			while (window->pollEvent(event)) {
+
+				if (event.type == sf::Event::Closed) window->close();
+
+				if (event.type == Event::MouseMoved) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseMoved();
 				}
+			}
+		}
+		
+		// Enemy turn
+		if (currentUnit->GetType() == ENEMY && !bDoingAction){
+			if (currentUnit->GetCurrentSpeed() > 0) {
+				Enemy* e = (Enemy*)currentUnit;
+				AITurn(e);
 			}
 			else {
 				AdvanceTurn();
 			}
 		}
+
+		// IF currently not doing an action, but we still have some actions to do:
+		if (!bDoingAction && currentUnit->GetActions().size() != 0 && !bStartOfTurnWait) {
+			// IF we still have speed/action Points left
+			if (currentUnit->GetCurrentSpeed() > 0) {
+				// Do that action
+				if (currentUnit->GetActions()[0]->GetCost() <= currentUnit->GetCurrentSpeed()) {
+					DoAction(currentUnit->GetActions()[0]);
+				}
+			}
+			// Next turn please
+			else {
+				
+				if(!bIsPlayerTurn){
+					AdvanceTurn();
+				}
+			}
+		}
+
+		// otherwise if we're doing an action, see if we're still moving (attacks are instant atm, will be checked for attack animation when implemented)
 		else if (bDoingAction) {
-			if (!currentUnit->GetMoving()) {
+			if (!currentUnit->GetMoving() && !currentUnit->GetAttacking()) {
 				bDoingAction = false;
 			}
 		}
-		if (currentUnit->GetCurrentSpeed() == 0) {
-			AdvanceTurn();
-		}
+		// if we have speed and no actions, get instructions
 		if(currentUnit->GetType() == PLAYER){
-			actionBar->SetPlayerUnit((PlayerUnit *) (currentUnit));
+			
+			// wait for mouse inputs
 			while (window->pollEvent(event)) {
 
 				if (event.type == sf::Event::Closed) window->close();
@@ -82,35 +116,49 @@ GAME_STATES CombatEngine::CombatLoop() {
 				}
 			}
 		}
+		if (bIsPlayerTurn && bEndTurn) {
+			AdvanceTurn();
+		}
 	}
 	return MAIN_MENU;
 }
 
-void CombatEngine::ConvertPathToActions(Actor* currentTurn) {
+void CombatEngine::ConvertPathToActions(Actor* currentActor) {
 	vector<Action*> actionList;
-	for (int i = pathToTarget.size()-1; i >=0; i--) {
+	for (int i = (int)pathToTarget.size() - 1; i >= 0; i--) {
 		Tile* tile = pathToTarget[i];
 		if (tile->GetHasActor()) {
-			if (tile->GetActor()->GetType() != currentTurn->GetType()) {
+			if (tile->GetActor()->GetType() != currentActor->GetType()) {
 				// ACTUALLY CHECK CURRENT SELECTED ATTACK OPTION (e.g. Club, gun, etc);
-				Action* action = new Action(currentTurn, tile->GetActor(), ATTACK);
+				Action* action = new Action(currentActor, tile->GetActor(), ATTACK);
 				actionList.push_back(action);
 			}
 		}
 		else {
-			Action* action = new Action(currentTurn, tile,MOVE);
+			Action* action = new Action(currentActor, tile, MOVE);
 			actionList.push_back(action);
 		}
 
 	}
-	currentTurn->SetActions(actionList);
+	currentActor->SetActions(actionList);
 
 
 }
 
+void CombatEngine::AITurn(Enemy* enemy) {
+	if (enemy->GetHasTarget() == false) {
+		enemy->SetTarget(playerUnits[0]);
+	}
+	else {
+		Tile* targetTile = grid->GetTile(enemy->GetTarget());
+		pathToTarget = grid->GetMeleePath(enemy->GetTile(), targetTile);
+		pathToTarget.pop_back();
+		ConvertPathToActions(combatUnits[currentTurn]);
+	}
+}
+
 void CombatEngine::DoAction(Action* action) {
 	bDoingAction = true;
-	Weapon* w;
 	switch (action->GetType()) {
 	case MOVE:
 		action->GetUser()->SetMoveTarget(action->GetTile());
@@ -125,6 +173,7 @@ void CombatEngine::DoAction(Action* action) {
 }
 
 void CombatEngine::MouseClicked() {
+	
 	if (Mouse::isButtonPressed(Mouse::Button::Left)) {
 		targetTile = grid->GetTile(mousePos);
 		if (targetTile != NULL && targetTile->GetHasActor()) {
@@ -133,35 +182,66 @@ void CombatEngine::MouseClicked() {
 				selectedPlayerUnit = (PlayerUnit*)actor;
 			}
 		}
-
+		ACTION_BAR_RESPONSE response = actionBar->OnClick(mousePos);
+		//check if clicked "end turn" button, then end turn;
+		// for now just end the turn
+		if (response == END_TURN) {
+			bEndTurn = true;
+		}
 	}
 	else if (Mouse::isButtonPressed(Mouse::Button::Right) && bIsPlayerTurn) {
+		bStartOfTurnWait = false;
 		targetTile = grid->GetTile(mousePos);
-		if (targetTile!= NULL) {
+		if (targetTile != NULL) {
 			for (Tile* t : pathToTarget) {
 				t->SetHighlighted(false);
 			}
-			pathToTarget = grid->GetPath(selectedPlayerUnit->GetTile(), targetTile);
-			pathToTarget.pop_back();
-			ConvertPathToActions(combatUnits[currentTurn]);
 
-		}
-		for (Tile* t : pathToTarget) {
-			t->SetHighlighted(true);
+
+			if (selectedPlayerUnit->GetWeapon()->GetType() == RANGED && targetTile->GetHasActor() && targetTile->GetActor()->GetType() == ENEMY) {
+
+				vector<Action*> actionList;
+				actionList.push_back(new Action(selectedPlayerUnit, targetTile->GetActor(), ATTACK));
+				selectedPlayerUnit->SetActions(actionList);
+				pathToTarget.clear();
+
+			}
+			else {
+				pathToTarget.clear();
+				pathToTarget = grid->GetMeleePath(selectedPlayerUnit->GetTile(), targetTile);
+				pathToTarget.pop_back();
+				ConvertPathToActions(combatUnits[currentTurn]);
+				
+			}
+			for (Tile* t : pathToTarget) {
+				t->SetHighlighted(true);
+			}
 		}
 	}
-	Actor* currentActor = combatUnits[currentTurn];
-	
 }
 
 void CombatEngine::AdvanceTurn() {
+
+	do { 
+		currentTurn++;
+		if (currentTurn == combatUnits.size()) {
+			currentTurn = 0;
+		}
+	} while (combatUnits[currentTurn]->IsDead() == true);
 	
-	currentTurn++;
-	if (currentTurn == combatUnits.size()) {
-		currentTurn = 0;
-	}
 	Actor* currentActor = combatUnits[currentTurn];
 	currentActor->ResetSpeed();
+	if (currentActor->GetType() == PLAYER){
+		bIsPlayerTurn = true;
+		bStartOfTurnWait = true;
+		actionBar->SetPlayerUnit((PlayerUnit*)(currentActor));
+	}
+	else {
+		bIsPlayerTurn = false;
+		bStartOfTurnWait = false;
+
+	}
+	bEndTurn = false;
 }
 
 void CombatEngine::MouseReleased() {
@@ -177,6 +257,7 @@ void CombatEngine::MouseMoved() {
 			inspectPane->SetActor(highlightActor);
 		}
 	}
+	actionBar->MouseMoved(mousePos);
 	
 }
 
@@ -201,6 +282,9 @@ void CombatEngine::InitCombatGrid() {
 	grid->AddActor(playerUnit1);
 	selectedPlayerUnit = playerUnit1;
 
+	enemyUnits.push_back(enemyUnit1);
+	playerUnits.push_back(playerUnit1);
+
 	SortInitiative(combatUnits);
 }
 
@@ -218,19 +302,34 @@ void CombatEngine::Update(Time t) {
 	for (GameObject* o : combatUnits) {
 		o->Update(t);
 	}
-	if (combatUnits[currentTurn]->GetType() == PLAYER) {
-		bIsPlayerTurn = true;
+	int enemyDeadCount = 0;
+	for (int i = 0; i < combatUnits.size(); i++) {
+		
+		if (combatUnits[i]->IsDead()) {
+			enemyDeadCount++;
+		}
 	}
-	else {
-		bIsPlayerTurn = false;
+	if (enemyDeadCount == combatUnits.size()) {
+		//VICTORY!;
 	}
+	for (int i = 0; i < enemyUnits.size(); i++) {
+		if (enemyUnits[i]->IsDead()) {
+			enemyUnits.erase(enemyUnits.begin() + i);
+		}
+	}
+	for (int i = 0; i < playerUnits.size(); i++) {
+		if (playerUnits[i]->IsDead()) {
+			playerUnits.erase(playerUnits.begin() + i);
+		}
+	}
+
 }
 
 void CombatEngine::Draw() {
 	window->clear(Color::Black);
 	grid->Draw(window);
-	for (GameObject* o : combatUnits) {
-		o->Draw(window);
+	for (Actor* o : combatUnits) {
+		if(!o->IsDead()) o->Draw(window);
 	}
 	inspectPane->Draw(window);
 	actionBar->Draw(window);

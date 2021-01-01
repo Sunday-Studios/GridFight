@@ -5,7 +5,6 @@ int main() {
 	GAME_STATES currentState = COMBAT_SCREEN;
 	RenderWindow* window = new RenderWindow(VideoMode(960, 960), "Fighting! On a grid!");
 	CombatEngine* combat = new CombatEngine(window);
-	
 	while (window->isOpen()) {
 
 

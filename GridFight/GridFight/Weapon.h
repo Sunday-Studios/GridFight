@@ -14,11 +14,13 @@ public:
 	void SetPosition(Vector2f);
 	void Draw(RenderWindow* window);
 	void SetEquipped(bool b) { bEquipped = b; }
+	WEAPON_TYPE GetType() { return type; }
 protected:
 	int attackDamage;
 	int speedCost;
 	int range;
-
+	
+	WEAPON_TYPE type;
 	bool bEquipped = false;
 };
 

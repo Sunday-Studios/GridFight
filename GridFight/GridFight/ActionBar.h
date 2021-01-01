@@ -13,9 +13,11 @@ public:
 		currentWeapon = playerUnit->GetCurrentWeapon();
 		updateWeaponSlots();
 	}
+	ACTION_BAR_RESPONSE OnClick(Vector2i MousePos);
+	void MouseMoved(Vector2i MousePos);
 protected:
-	int posX = 0;
-	int posY = 960 - 256;
+	float posX = 0.f;
+	float posY = 704.f;
 	int weaponSlots = 3;
 	Vector2f weaponRowPositions[3] = { Vector2f(60, 730), Vector2f(170, 730),Vector2f(280, 730) };
 
@@ -25,6 +27,9 @@ protected:
 	Sprite weaponBackings[3];
 	Texture texWepBack;
 
+	Sprite endTurnButton;
+	Texture texEndTurn;
+
 	vector<Weapon*> weapons;
 
 	Shader shadeEquipped;
@@ -33,5 +38,7 @@ protected:
 	PlayerUnit* playerUnit;
 	void updateWeaponSlots();
 	int currentWeapon = 0;
+
+	bool bHoverEndTurn = false;
 };
 

@@ -5,12 +5,12 @@
 Weapon::Weapon(int ID) {
 	if (ID == 0) {
 		texIcon.loadFromFile("Textures/Weapons/axe.png");
-		range = 1;
+		type = MELEE;
 		attackDamage = 5;
 	}
 	if (ID == 1) {
 		texIcon.loadFromFile("Textures/Weapons/bow.png");
-		range = 2;
+		type = RANGED;
 		attackDamage = 3;
 	}
 	//load stats from ID in files

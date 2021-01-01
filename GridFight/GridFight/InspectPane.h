@@ -2,7 +2,7 @@
 #include "Actor.h"
 #include <SFML/Graphics.hpp>
 
-static class InspectPane
+class InspectPane
 {
 public:
 	InspectPane();

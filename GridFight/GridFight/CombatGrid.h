@@ -19,7 +19,8 @@ public:
 	void AddActor(PlayerUnit* p);
 	void AddActor(Enemy* e);
 	Tile* GetTile(Vector2i mousePos);
-	vector<Tile*> GetPath(Tile* start, Tile* end);
+	Tile* GetTile(Actor* actor);
+	vector<Tile*> GetMeleePath(Tile* start, Tile* end);
 protected:
 
 
@@ -32,7 +33,7 @@ protected:
 	};
 	int GetPathCost(vector<Tile*> path);
 	vector<Path> InsertPath(vector<Path> pathList, Path newPath);
-	void AddPath(Path currentPath, Tile* tile);
+	//void AddPath(Path currentPath, Tile* tile);
 	
 
 

@@ -39,6 +39,8 @@ void Actor::Update(Time t) {
 		Weapon* w = action->GetUser()->GetWeapon();
 		action->GetTarget()->Damage(w->GetAttack());
 		cout << "attack!" << endl;
+		currentSpeed -= actionList[0]->GetCost();
+
 		actionList.erase(actionList.begin());
 		bIsAttacking = false;
 		// start attack animation somehow
@@ -70,6 +72,7 @@ void Actor::Damage(int damage) {
 	currentHealth -= damage;
 	if (currentHealth <= 0) {
 		currentHealth = 0;
+		bIsDead = true;
 		// they are DEAD
 	}
 }

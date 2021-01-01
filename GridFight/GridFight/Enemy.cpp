@@ -14,5 +14,7 @@ Enemy::Enemy(CombatEngine* e, int ID) : Actor(e) {
 	maxSpeed = 1;
 	initiative = 1;
 	armour = 0;
+
+	weapons.push_back(new Weapon(0));
 	name = "Dummy";
 }

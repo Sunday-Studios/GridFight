@@ -32,6 +32,11 @@ void Tile::Draw(RenderWindow* w) {
 
 void Tile::Update(Time t) {
 	shader.setUniform("time", clock.getElapsedTime().asSeconds());
+	if (actor) {
+		if (actor->IsDead()) {
+			ClearActor();
+		}
+	}
 }
 
 bool Tile::SetActor(Actor* a) {

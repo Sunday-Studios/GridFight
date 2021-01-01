@@ -34,9 +34,11 @@ public:
 	bool GetMoving() { return bIsMoving; }
 	void ResetSpeed() { currentSpeed = maxSpeed; }
 	Weapon* GetWeapon() { return weapons[currentWeapon]; }
+	void SetWeapon(int i) { currentWeapon = i; }
 	void Damage(int damage);
 	bool IsDead() { return bIsDead; }
 	void SetAttacking(bool b) { bIsAttacking = b; }
+	bool GetAttacking() { return bIsAttacking; }
 	void Animate();
 protected:
 	Tile* tile;
@@ -59,7 +61,7 @@ protected:
 	int idleAnimationFrames = 0;
 	int currentIdleFrame = 0;
 	vector<Texture> idleAnimationFrameSet;
-	float idleAnimationTimer = 0;
-	float idleAnimationRate = 0.15;
+	float idleAnimationTimer = 0.f;
+	float idleAnimationRate = 0.15f;
 };
 

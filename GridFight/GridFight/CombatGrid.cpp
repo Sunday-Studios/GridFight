@@ -6,6 +6,8 @@ CombatGrid::CombatGrid(CombatEngine* e) {
 
 	texGridBack.loadFromFile("Textures/GUI/GridBackground.png");
 	gridBackground.setTexture(texGridBack);
+
+	srand((unsigned int)time(0));
 }
 
 CombatGrid::~CombatGrid() {
@@ -19,7 +21,7 @@ void CombatGrid::SetupGrid(int ID) {
 	// default will be 6x6 board
 
 	rows = 6; //get from generator
-	cols = 5; //get from generator
+	cols = 6; //get from generator
 
 	for (int i = 0; i < rows; i++) {
 		vector<Tile*> row;
@@ -56,7 +58,7 @@ void CombatGrid::Update(Time t) {
 }
 
 void CombatGrid::AddActor(PlayerUnit* p) {
-	int col = std::rand() % (cols / 2);
+	int col = std::rand() % ((cols-1) / 2);
 	int row = std::rand() % rows;
 	grid[row][col]->SetActor(p);
 }
@@ -80,7 +82,19 @@ Tile* CombatGrid::GetTile(Vector2i mousePos) {
 	
 }
 
-vector<Tile*> CombatGrid::GetPath(Tile* start, Tile* end) {
+Tile* CombatGrid::GetTile(Actor* actor) {
+	for (vector<Tile*> row : grid) {
+		for (Tile* tile : row) {
+			Actor* a= tile->GetActor();
+			if (a == actor) {
+				return tile;
+			}
+		}
+	}
+	return NULL;
+}
+
+vector<Tile*> CombatGrid::GetMeleePath(Tile* start, Tile* end) {
 	int startRow = start->GetRow();
 	int startCol = start->GetCol();
 
@@ -181,7 +195,7 @@ vector<Tile*> CombatGrid::GetPath(Tile* start, Tile* end) {
 			}
 		}
 	}
-
+	return currentPath.path;
 }
 
 int CombatGrid::GetPathCost(vector<Tile*> path) {

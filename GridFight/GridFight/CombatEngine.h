@@ -40,6 +40,7 @@ protected:
 
 	
 	void AdvanceTurn();
+	void AITurn(Enemy* enemy);
 
 	GAME_STATES CombatLoop();
 
@@ -59,7 +60,7 @@ protected:
 
 	CombatGrid* grid;
 
-	int currentTurn = 1;
+	int currentTurn = 0;
 
 	PlayerUnit* selectedPlayerUnit;
 	Tile* targetTile;
@@ -72,5 +73,7 @@ protected:
 	int currentLevel = 0;
 	bool bDoingAction = false;
 	bool bIsPlayerTurn = false;
+	bool bStartOfTurnWait = false;
+	bool bEndTurn = false;
 };
 
