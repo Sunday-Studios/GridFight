@@ -3,12 +3,12 @@
 #include "enums.h"
 
 using namespace sf;
-class CombatEngine;
+class CombatScreen;
 
 class GameObject
 {
 public:
-	GameObject(CombatEngine* e);
+	GameObject(CombatScreen* e);
 	GameObject() {}
 	~GameObject() {};
 	virtual void Update(Time t) {};
@@ -30,7 +30,7 @@ protected:
 	Sprite icon;
 	Texture texIcon;
 	Shader shader;
-	CombatEngine* engine;
+	CombatScreen* engine;
 	Vector2f pos = Vector2f(0, 0);
 	OBJECT_TYPE type = OBJECT;
 };

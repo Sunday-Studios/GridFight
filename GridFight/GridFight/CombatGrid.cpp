@@ -1,7 +1,7 @@
 #include "CombatGrid.h"
 
 
-CombatGrid::CombatGrid(CombatEngine* e) {
+CombatGrid::CombatGrid(CombatScreen* e) {
 	engine = e;
 
 	texGridBack.loadFromFile("Textures/GUI/GridBackground.png");

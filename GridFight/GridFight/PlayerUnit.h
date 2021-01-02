@@ -3,7 +3,7 @@
 class PlayerUnit :	public Actor
 {
 public:
-	PlayerUnit(CombatEngine* e, int ID);
+	PlayerUnit(CombatScreen* e, int ID);
 	~PlayerUnit() {};
 	void Draw(RenderWindow* window);
 	vector<Weapon*> GetWeapons() { return weapons; }

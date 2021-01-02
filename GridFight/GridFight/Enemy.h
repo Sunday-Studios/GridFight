@@ -3,7 +3,7 @@
 class Enemy :	public Actor
 {
 public:
-	Enemy(CombatEngine* e, int ID);
+	Enemy(CombatScreen* e, int ID);
 	~Enemy() {};
 	bool GetHasTarget() { return bHasTarget; }
 	Actor* GetTarget() { return target; }

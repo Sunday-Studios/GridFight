@@ -33,3 +33,9 @@ enum WEAPON_TYPE {
 	MELEE,
 	RANGED
 };
+
+enum COMBAT_STATES {
+	FIGHTING,
+	END_WIN,
+	END_LOSE
+};

@@ -13,7 +13,7 @@ using namespace std;
 class Actor : public GameObject
 {
 public:
-	Actor(CombatEngine* e);
+	Actor(CombatScreen* e);
 	Actor(Actor* a);
 	~Actor() {};
 	virtual void Update(Time t);

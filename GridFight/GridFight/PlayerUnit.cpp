@@ -1,7 +1,7 @@
 #include "PlayerUnit.h"
 
 
-PlayerUnit::PlayerUnit(CombatEngine* e, int ID) : Actor(e) {
+PlayerUnit::PlayerUnit(CombatScreen* e, int ID) : Actor(e) {
 	//read ID details from text file; XML/JSON/PlainText
 	// getInfo(ID, OBJECT_TYPE_ENEMY);
 

@@ -147,12 +147,14 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="CombatGrid.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="CombatEngine.cpp" />
+    <ClCompile Include="CombatScreen.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GridFight.cpp" />
     <ClCompile Include="InspectPane.cpp" />
+    <ClCompile Include="MainScreen.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="PlayerUnit.cpp" />
+    <ClCompile Include="RewardScreen.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
@@ -163,11 +165,13 @@
     <ClInclude Include="CombatGrid.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="enums.h" />
-    <ClInclude Include="CombatEngine.h" />
+    <ClInclude Include="CombatScreen.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InspectPane.h" />
+    <ClInclude Include="MainScreen.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PlayerUnit.h" />
+    <ClInclude Include="RewardScreen.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>

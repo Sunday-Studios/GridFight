@@ -2,7 +2,7 @@
 #include "Tile.h"
 #include "Action.h"
 
-Actor::Actor(CombatEngine* e) : GameObject(e) {
+Actor::Actor(CombatScreen* e) : GameObject(e) {
 	type = ACTOR;
 }
 

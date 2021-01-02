@@ -7,7 +7,7 @@ class Actor;
 class Tile :	public GameObject
 {
 public:
-	Tile(CombatEngine*, int ID, int r, int c);
+	Tile(CombatScreen*, int ID, int r, int c);
 	~Tile() {};
 	void SetObstacle(int ID);
 	void Draw(RenderWindow * w);
