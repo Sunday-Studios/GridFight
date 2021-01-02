@@ -1,4 +1,6 @@
-﻿  GridFight.cpp
+﻿  CombatScreen.cpp
+  GridFight.cpp
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gridfight.cpp(8): warning C4101: 'mainMenu': unreferenced local variable
 c:\users\joel\documents\sundaystudios\gridfight\gridfight\gridfight\gridfight\gridfight.cpp(10): warning C4101: 'reward': unreferenced local variable
+  Generating Code...
   GridFight.vcxproj -> C:\Users\Joel\Documents\SundayStudios\GridFight\GridFight\GridFight\x64\Debug\GridFight.exe

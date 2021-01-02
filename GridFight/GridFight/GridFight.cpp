@@ -20,6 +20,7 @@ int main() {
 			//CharacterSelectLoop();
 			break;
 		case COMBAT_SCREEN:
+			combat->MainLoop();
 			combatState = combat->GetState();
 			switch (combatState) {
 			case FIGHTING:

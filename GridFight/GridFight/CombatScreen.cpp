@@ -26,104 +26,104 @@ void CombatScreen::MainLoop() {
 
 void CombatScreen::CombatLoop() {
 	Event event;
-	while (window->isOpen()) {
-		Time elapsed = clock.restart();
-		window->setView(camera);
-		Update(elapsed);
-		Draw();
-		if (bLoss) {
-			currentState = END_LOSE;
-		}
-		else if (bVictory) {
-			currentState = END_WIN;
-		}
-		Actor* currentUnit = combatUnits[currentTurn];
-		//loop for any input logic that should update during enemy turns/animations/etc 
-		// i.e. hovering over units to display inspectPane details
-		if (currentUnit->GetType() == ENEMY) {
-			while (window->pollEvent(event)) {
 
-				if (event.type == sf::Event::Closed) window->close();
+	Time elapsed = clock.restart();
+	window->setView(camera);
+	Update(elapsed);
+	Draw();
+	if (bLoss) {
+		currentState = END_LOSE;
+	}
+	else if (bVictory) {
+		currentState = END_WIN;
+	}
+	Actor* currentUnit = combatUnits[currentTurn];
+	//loop for any input logic that should update during enemy turns/animations/etc 
+	// i.e. hovering over units to display inspectPane details
+	if (currentUnit->GetType() == ENEMY) {
+		while (window->pollEvent(event)) {
 
-				if (event.type == Event::MouseMoved) {
-					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-					MouseMoved();
-				}
+			if (event.type == sf::Event::Closed) window->close();
+
+			if (event.type == Event::MouseMoved) {
+				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+				MouseMoved();
 			}
 		}
+	}
 		
-		// Enemy turn
-		if (currentUnit->GetType() == ENEMY && !bDoingAction){
-			if (currentUnit->GetCurrentSpeed() > 0) {
-				Enemy* e = (Enemy*)currentUnit;
-				AITurn(e);
-			}
-			else {
-				AdvanceTurn();
-			}
+	// Enemy turn
+	if (currentUnit->GetType() == ENEMY && !bDoingAction){
+		if (currentUnit->GetCurrentSpeed() > 0) {
+			Enemy* e = (Enemy*)currentUnit;
+			AITurn(e);
 		}
-
-		// IF currently not doing an action, but we still have some actions to do:
-		if (!bDoingAction && currentUnit->GetActions().size() != 0 && !bStartOfTurnWait) {
-			// IF we still have speed/action Points left
-			if (currentUnit->GetCurrentSpeed() > 0) {
-				// Do that action
-				if (currentUnit->GetActions()[0]->GetCost() <= currentUnit->GetCurrentSpeed()) {
-					DoAction(currentUnit->GetActions()[0]);
-				}
-			}
-			// Next turn please
-			else {
-				
-				if(!bIsPlayerTurn){
-					AdvanceTurn();
-				}
-			}
-		}
-
-		// otherwise if we're doing an action, see if we're still moving (attacks are instant atm, will be checked for attack animation when implemented)
-		else if (bDoingAction) {
-			if (!currentUnit->GetMoving() && !currentUnit->GetAttacking()) {
-				bDoingAction = false;
-			}
-		}
-		// if we have speed and no actions, get instructions
-		if(currentUnit->GetType() == PLAYER){
-			
-			// wait for mouse inputs
-			while (window->pollEvent(event)) {
-
-				if (event.type == sf::Event::Closed) window->close();
-
-				if (!bDoingAction) {
-					if (event.type == Event::MouseButtonPressed) {
-						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-						MouseClicked();
-					}
-					if (event.type == Event::MouseButtonReleased) {
-						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-						MouseReleased();
-					}
-					if (event.type == Event::MouseMoved) {
-						mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-						MouseMoved();
-					}
-					if (event.type == Event::KeyPressed) {
-						if (Keyboard::isKeyPressed(Keyboard::Space)) {
-							AdvanceTurn();
-						}
-					}
-				}
-				if (event.type == Event::MouseMoved) {
-					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
-					MouseMoved();
-				}
-			}
-		}
-		if (bIsPlayerTurn && bEndTurn) {
+		else {
 			AdvanceTurn();
 		}
 	}
+
+	// IF currently not doing an action, but we still have some actions to do:
+	if (!bDoingAction && currentUnit->GetActions().size() != 0 && !bStartOfTurnWait) {
+		// IF we still have speed/action Points left
+		if (currentUnit->GetCurrentSpeed() > 0) {
+			// Do that action
+			if (currentUnit->GetActions()[0]->GetCost() <= currentUnit->GetCurrentSpeed()) {
+				DoAction(currentUnit->GetActions()[0]);
+			}
+		}
+		// Next turn please
+		else {
+				
+			if(!bIsPlayerTurn){
+				AdvanceTurn();
+			}
+		}
+	}
+
+	// otherwise if we're doing an action, see if we're still moving (attacks are instant atm, will be checked for attack animation when implemented)
+	else if (bDoingAction) {
+		if (!currentUnit->GetMoving() && !currentUnit->GetAttacking()) {
+			bDoingAction = false;
+		}
+	}
+	// if we have speed and no actions, get instructions
+	if(currentUnit->GetType() == PLAYER){
+			
+		// wait for mouse inputs
+		while (window->pollEvent(event)) {
+
+			if (event.type == sf::Event::Closed) window->close();
+
+			if (!bDoingAction) {
+				if (event.type == Event::MouseButtonPressed) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseClicked();
+				}
+				if (event.type == Event::MouseButtonReleased) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseReleased();
+				}
+				if (event.type == Event::MouseMoved) {
+					mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+					MouseMoved();
+				}
+				if (event.type == Event::KeyPressed) {
+					if (Keyboard::isKeyPressed(Keyboard::Space)) {
+						AdvanceTurn();
+					}
+				}
+			}
+			if (event.type == Event::MouseMoved) {
+				mousePos = Vector2i(window->mapPixelToCoords(Mouse::getPosition(*window)));
+				MouseMoved();
+			}
+		}
+	}
+	if (bIsPlayerTurn && bEndTurn) {
+		AdvanceTurn();
+	}
+	
 }
 
 void CombatScreen::ConvertPathToActions(Actor* currentActor) {
