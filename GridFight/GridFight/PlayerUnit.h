@@ -3,7 +3,13 @@
 class PlayerUnit :	public Actor
 {
 public:
-	PlayerUnit(GameEngine* e, int ID);
+	PlayerUnit(CombatScreen* e, int ID);
 	~PlayerUnit() {};
+	void Draw(RenderWindow* window);
+	vector<Weapon*> GetWeapons() { return weapons; }
+	int GetCurrentWeapon() { return currentWeapon; }
+protected:
+	void UpdateWeaponList();
+	void SetEquippedWeapon(int weaponID);
 };
 
